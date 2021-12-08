@@ -9,6 +9,11 @@ endif()
 find_package(SFML 2 REQUIRED COMPONENTS graphics system window)
 find_package(Threads REQUIRED)
 
+if(UNIX)
+   find_package(spdlog REQUIRED)
+   find_package(jsoncpp REQUIRED)
+endif()
+
 if(WIN32)
    set(WIN32_GUI WIN32)
 endif()
@@ -16,11 +21,22 @@ endif()
 set(SFML_LIBS sfml-graphics sfml-system sfml-window)
 
 file(GLOB SOURCES src/*.cpp)
-add_subdirectory("vendor/jsoncpp")
-add_subdirectory("vendor/spdlog")
+
+if(NOT UNIX)
+   add_subdirectory("vendor/jsoncpp")
+   add_subdirectory("vendor/spdlog")
+endif()
+
 add_executable(${PROJECT_NAME} ${WIN32_GUI} ${SOURCES})
-target_link_libraries(${PROJECT_NAME} ${SFML_LIBS} jsoncpp_lib spdlog)
-target_include_directories(${PROJECT_NAME} PRIVATE "include" "lib" "${PROJECT_SOURCE_DIR/vendor/jsoncpp}" "${PROJECT_SOURCE_DIR/vendor/spdlog}")
+
+if(UNIX)
+   target_link_libraries(${PROJECT_NAME} ${SFML_LIBS} spdlog::spdlog jsoncpp_lib)
+   target_include_directories(${PROJECT_NAME} PRIVATE "include" "lib")
+else()
+   target_link_libraries(${PROJECT_NAME} ${SFML_LIBS} jsoncpp_lib spdlog)
+   target_include_directories(${PROJECT_NAME} PRIVATE "include" "lib" "${PROJECT_SOURCE_DIR/vendor/jsoncpp}" "${PROJECT_SOURCE_DIR/vendor/spdlog}")
+endif()
+
 set(SFML_LIBS sfml-system sfml-window sfml-graphics)
 
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)
