@@ -36,7 +36,7 @@ Browse to your build project, and launch the solution or open project button fro
 
 ![](/images/output.PNG)
 
-# Using template on linux
+# Using template on Linux
 
 The process is always much easier on linux. :)
 
@@ -54,3 +54,17 @@ sudo apt install libspdlog-dev
 https://github.com/TheFern2/cpp_game_dev_templates/blob/main/docs/linux/setup.md
 
 To build you can run `./install.sh`, to edit project use favorite editor, i.e. clion, vscode, etc.
+
+# Using template on Mac
+
+Tested with SFML 2.6.1 and Clion
+
+```
+git clone https://github.com/TheFern2/cpp_sfml_template.git
+```
+
+```
+brew install spdlog
+brew install jsoncpp
+brew install sfml@2
+```

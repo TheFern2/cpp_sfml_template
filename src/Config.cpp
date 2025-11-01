@@ -1,23 +1,20 @@
 #include <json/json.h>
 #include <json/value.h>
 #include <fstream>
-#include <atomic>
 #include "spdlog/spdlog.h"
 #include "Config.h"
 
 namespace config
 {
-    std::string app_name = "";
-    std::string version = "";
+    std::string app_name;
+    std::string version;
 }
 
-bool config::load_config(std::string filename)
+bool config::load_config(const std::string& filename)
 {
-    Json::Value json;
-    std::ifstream file(filename);
-
-    if (file.good())
+    if (std::ifstream file(filename); file.good())
     {
+        Json::Value json;
         Json::Reader reader;
         reader.parse(file, json);
 
